@@ -1,7 +1,49 @@
 import { Button } from "@/components/ui/button";
-import { BookOpen, Users, Zap, ArrowRight, CheckCircle2 } from "lucide-react";
+import { BookOpen, Users, Zap, ArrowRight, CheckCircle2, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 export default function Index() {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  const testimonials = [
+    {
+      name: "Priya Sharma",
+      role: "Law Student, Delhi University",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+      text: "LegalPath transformed my preparation. The structured modules and mock tests helped me score 95% in my entrance exam. The mentorship from practicing lawyers was invaluable!",
+      rating: 5
+    },
+    {
+      name: "Arjun Patel",
+      role: "Aspiring Advocate, Mumbai",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      text: "I was struggling with practical application of concepts. LegalPath's case studies and expert guidance made everything click. Now I'm confident about my legal career.",
+      rating: 5
+    },
+    {
+      name: "Anjali Singh",
+      role: "Law Graduate, Bangalore",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+      text: "The mentorship program connected me with senior advocates who gave me real-world insights. It's not just about studying law; it's about understanding how to practice it.",
+      rating: 5
+    },
+    {
+      name: "Rohit Gupta",
+      role: "Law Student, Pune University",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+      text: "From struggling with basics to acing entrance tests, LegalPath was my turning point. The community and expert support made all the difference.",
+      rating: 5
+    }
+  ];
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
@@ -151,6 +193,91 @@ export default function Index() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Success Stories from Our Students</h2>
+            <p className="text-lg text-foreground/70">Join thousands who've transformed their legal careers</p>
+          </div>
+
+          <div className="relative">
+            {/* Testimonial Card */}
+            <div className="bg-background border border-border rounded-2xl p-8 md:p-12 shadow-lg">
+              <div className="flex flex-col md:flex-row gap-8 items-center">
+                {/* Image */}
+                <div className="flex-shrink-0">
+                  <img
+                    src={testimonials[currentTestimonial].image}
+                    alt={testimonials[currentTestimonial].name}
+                    className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-primary"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1">
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {Array(testimonials[currentTestimonial].rating).fill(0).map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                    ))}
+                  </div>
+
+                  {/* Text */}
+                  <p className="text-lg text-foreground/80 mb-6 italic">
+                    "{testimonials[currentTestimonial].text}"
+                  </p>
+
+                  {/* Author */}
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground">
+                      {testimonials[currentTestimonial].name}
+                    </h3>
+                    <p className="text-foreground/60">
+                      {testimonials[currentTestimonial].role}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-center gap-4 mt-8">
+              <button
+                onClick={prevTestimonial}
+                className="p-3 rounded-full border border-border bg-background hover:bg-secondary transition"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="w-5 h-5 text-primary" />
+              </button>
+              <button
+                onClick={nextTestimonial}
+                className="p-3 rounded-full border border-border bg-background hover:bg-secondary transition"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2 mt-6">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`w-2 h-2 rounded-full transition ${
+                    index === currentTestimonial
+                      ? "bg-primary w-8"
+                      : "bg-border hover:bg-primary/50"
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
