@@ -8,7 +8,7 @@ export default function Index() {
   const testimonials = [
     {
       name: "Priya Sharma",
-      role: "Law Student, Delhi University",
+      role: "Law Student",
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
       text: "LegalPath transformed my preparation. The structured modules and mock tests helped me score 95% in my entrance exam. The mentorship from practicing lawyers was invaluable!",
       rating: 5
