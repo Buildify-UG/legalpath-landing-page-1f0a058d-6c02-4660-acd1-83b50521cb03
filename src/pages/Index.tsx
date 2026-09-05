@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { BookOpen, Users, Zap, ArrowRight, CheckCircle2, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import Chatbot from "@/components/Chatbot";
 
 export default function Index() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -319,6 +320,9 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* Chatbot Widget */}
+      <Chatbot />
 
       {/* Footer */}
       <footer className="border-t border-border py-8 px-4 sm:px-6 lg:px-8">
