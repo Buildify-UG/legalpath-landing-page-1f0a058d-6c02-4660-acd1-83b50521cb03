@@ -23,6 +23,18 @@ export default function Chatbot() {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const knowledgeBase: Record<string, string> = {
+    "law courses": "LegalPath offers comprehensive law courses including Constitutional Law, Criminal Law, Civil Law, Corporate Law, and more. Each course includes structured modules, real case studies, and practical applications. You can choose from beginner to advanced levels based on your current knowledge.",
+    "entrance exam": "Our mock entrance tests are designed to match the format and difficulty of actual legal entrance exams (CLAT, AIBE, etc.). We provide detailed solutions, performance analytics, and personalized study recommendations based on your results.",
+    "admission": "We help with law school admission preparation through dedicated modules, document guidance, and interview preparation. Our mentors provide insights into different law schools and admission processes across India.",
+    "mentorship": "Connect with experienced advocates and legal professionals through our mentorship program. Get 1-on-1 guidance, career roadmaps, internship opportunities, and real-world legal practice insights.",
+    "study resources": "Access our extensive library of study materials including case summaries, statutory notes, practice questions, and video lectures. All resources are curated by legal experts and updated regularly.",
+    "mock tests": "Take unlimited mock tests covering various law entrance exams and bar association tests. Get instant results, detailed explanations, and performance tracking to identify weak areas.",
+    "career guidance": "Our expert mentors provide personalized career guidance, helping you choose between different legal specializations, understand market demands, and prepare for internships and placements.",
+    "pricing": "LegalPath offers flexible pricing plans. We have a free trial to explore our platform, monthly subscriptions, and annual plans with significant discounts. Contact our sales team for enterprise packages.",
+    "support": "Our support team is available 24/7 to help with technical issues, course content questions, and general guidance. You can reach us through email, chat, or phone.",
+  };
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -47,47 +59,29 @@ export default function Chatbot() {
     setInput("");
     setLoading(true);
 
-    try {
-      // Call edge function for AI response
-      const response = await fetch(
-        "https://diezerpucrngtniruztd.functions.supabase.co/legalpath-chatbot",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpZXplcnB1Y3JuZ3RuaXJ1enRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1ODAzNjAsImV4cCI6MjEwNDE1NjM2MH0.CPTbDGklWmEzkR54Pmrimp495gRFGwCk_K71vtETzz0`,
-          },
-          body: JSON.stringify({
-            message: input,
-            conversationHistory: messages.map((m) => ({
-              role: m.sender === "user" ? "user" : "assistant",
-              content: m.text,
-            })),
-          }),
-        }
-      );
+    // Simulate processing delay for better UX
+    setTimeout(() => {
+      const lowerInput = input.toLowerCase();
+      let botResponse = "I am here to help! I can answer questions about law courses, entrance exams, admissions, mentorship, study resources, mock tests, career guidance, pricing, and support. What would you like to know?";
 
-      const data = await response.json();
+      // Search knowledge base for matching response
+      for (const [key, value] of Object.entries(knowledgeBase)) {
+        if (lowerInput.includes(key)) {
+          botResponse = value;
+          break;
+        }
+      }
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.reply || "I couldn't process that. Please try again.",
+        text: botResponse,
         sender: "bot",
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, botMessage]);
-    } catch (error) {
-      console.error("Chatbot error:", error);
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: "Sorry, I'm having trouble connecting. Please try again later.",
-        sender: "bot",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
       setLoading(false);
-    }
+    }, 800);
   };
 
   return (
