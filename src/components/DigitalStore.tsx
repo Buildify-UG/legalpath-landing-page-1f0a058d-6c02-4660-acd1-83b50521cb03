@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, X, Download } from "lucide-react";
-import QRCode from "qrcode.react";
+import * as QRCode from "qrcode.react";
 
 interface Product {
   id: string;
